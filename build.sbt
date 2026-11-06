@@ -10,6 +10,16 @@ scalaVersion := "3.9.0"
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test
 
+inThisBuild(
+   List(
+     scalaVersion := "3.9.0",
+     semanticdbEnabled := true,
+     semanticdbVersion := scalafixSemanticdb.revision,
+     scalacOptions += "-Wunused:imports",
+   )
+)
+
+
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "cloud.eheaver.controllers._"
 
