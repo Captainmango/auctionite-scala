@@ -1,9 +1,10 @@
 package controllers
 
-import org.scalatestplus.play._
-import org.scalatestplus.play.guice._
-import play.api.test.Helpers._
-import play.api.test._
+import org.scalatestplus.play.*
+import org.scalatestplus.play.guice.*
+import play.api.cache.SyncCacheApi
+import play.api.test.Helpers.*
+import play.api.test.*
 
 /** Add your spec here. You can mock out a whole application including requests, plugins etc.
   *

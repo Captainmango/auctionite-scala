@@ -8,3 +8,5 @@ addSbtPlugin("com.github.sbt" % "flyway-sbt" % "12.0.0")
 // App level stuff doesn't care about flyway
 libraryDependencies += "org.flywaydb" % "flyway-database-postgresql" % "13.12.1"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.7.14"
+// .env support for build.sbt settings (flywayUrl etc.); the app declares its own copy.
+libraryDependencies += "io.github.cdimascio" % "dotenv-java" % "3.2.0"
