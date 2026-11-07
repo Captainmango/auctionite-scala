@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id            BIGINT GENERATED ALWAYS AS IDENTITY,
+    id            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     email         VARCHAR(320),
     password_hash TEXT,
     created_at    TIMESTAMP
@@ -10,7 +10,7 @@ CREATE INDEX idx_users_email ON users (email);
 
 
 CREATE TABLE items (
-    id          BIGINT GENERATED ALWAYS AS IDENTITY,
+    id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id     BIGINT,
     name        VARCHAR(200),
     description TEXT,
@@ -22,7 +22,7 @@ CREATE TABLE items (
 CREATE INDEX idx_items_user_id ON items (user_id);
 
 CREATE TABLE item_pictures (
-    id         BIGINT GENERATED ALWAYS AS IDENTITY,
+    id         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     item_id    BIGINT,
     url        TEXT,
     sort_order INTEGER,
@@ -34,7 +34,7 @@ CREATE INDEX idx_item_pictures_item_id ON item_pictures (item_id, sort_order);
 
 
 CREATE TABLE listings (
-    id             BIGINT GENERATED ALWAYS AS IDENTITY,
+    id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     item_id        BIGINT,
     starting_price NUMERIC(12, 2),
     created_at     TIMESTAMP,
@@ -46,7 +46,7 @@ CREATE INDEX idx_listings_item_id ON listings (item_id);
 
 
 CREATE TABLE listing_schedules (
-    id             BIGINT GENERATED ALWAYS AS IDENTITY,
+    id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     listing_id     BIGINT,
     activates_at   TIMESTAMP,
     deactivates_at TIMESTAMP,
@@ -63,7 +63,7 @@ CREATE INDEX idx_listing_schedules_deactivates_at ON listing_schedules (deactiva
 
 
 CREATE TABLE listing_state_transitions (
-    id         BIGINT GENERATED ALWAYS AS IDENTITY,
+    id         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     listing_id BIGINT,
     status     VARCHAR(16),         -- DRAFT, ACTIVE, INACTIVE, VOID, COMPLETE
     created_at TIMESTAMP
@@ -75,7 +75,7 @@ CREATE INDEX idx_listing_state_transitions_listing_id
 
 
 CREATE TABLE bids (
-    id         BIGINT GENERATED ALWAYS AS IDENTITY,
+    id         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     listing_id BIGINT,
     user_id    BIGINT,
     amount     NUMERIC(12, 2),

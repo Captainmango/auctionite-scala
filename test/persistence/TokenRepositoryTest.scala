@@ -13,7 +13,7 @@ class TokenRepositoryTest extends AppSpec {
 
   it should "do something" in {
     val db = inject[Database]
-    val t = Token(userId = 1, value = "sdss")
+    val t = Token(userId = 1, value = "sdsss")
     assert(sut.persistToken(t))
   }
 }

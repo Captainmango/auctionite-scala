@@ -10,9 +10,21 @@ trait TokenRepositoryInterface {
 }
 
 class TokenRepository @Inject() (db: Database) extends TokenRepositoryInterface {
-  def persistToken(t: Token): Boolean = {
+  def persistToken(t: Token): Boolean =
     db.withConnection { conn =>
-      SQL"""select 1;""".execute()(using conn)
-    }
-  }
+      SQL("""
+      INSERT INTO tokens (value, user_id)
+      VALUES ({value}, {user_id})
+      RETURNING 1
+      """)
+        .on(
+          "value" -> t.value, "user_id" -> t.userId
+        )
+        .executeInsert()(using conn)
+    } match
+      case Some(rowCount) =>
+        println(rowCount)
+        rowCount == 1L
+      case None =>
+        false
 }
