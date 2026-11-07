@@ -16,6 +16,8 @@ lazy val root = (project in file("."))
 
 libraryDependencies += guice
 libraryDependencies += cacheApi
+libraryDependencies += jdbc
+libraryDependencies += "at.favre.lib" % "bcrypt" % "0.10.2"
 libraryDependencies += "com.github.karelcemus" %% "play-redis" % "5.5.0"
 libraryDependencies += "io.github.cdimascio" % "dotenv-java" % "3.2.0"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.7.14"

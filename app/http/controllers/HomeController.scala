@@ -1,4 +1,4 @@
-package controllers
+package http.controllers
 
 import play.api._
 import play.api.mvc._
@@ -16,6 +16,6 @@ class HomeController @Inject() (val controllerComponents: ControllerComponents) 
     * request with a path of `/`.
     */
   def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
+    Ok("")
   }
 }
