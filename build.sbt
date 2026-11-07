@@ -25,6 +25,9 @@ libraryDependencies += "org.playframework.anorm" %% "anorm" % "3.1.0"
 libraryDependencies += "org.flywaydb" % "flyway-database-postgresql" % "13.12.1"
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test
 
+// .env is read here ONLY to configure the Flyway tasks below: flyway-sbt runs inside
+// sbt's own JVM and can't go through the app's DotenvApplicationLoader. The app and
+// tests both load .env themselves (app/utils/DotenvConfig.scala).
 // Precedence: real environment variables > .env > hardcoded defaults.
 lazy val dotEnv: Dotenv =
   Dotenv.configure().ignoreIfMissing().ignoreIfMalformed().load()

@@ -1,8 +1,8 @@
 package controllers
 
+import common.DotenvOneAppPerTest
 import http.controllers.HomeController
 import org.scalatestplus.play.*
-import org.scalatestplus.play.guice.*
 import play.api.cache.SyncCacheApi
 import play.api.test.Helpers.*
 import play.api.test.*
@@ -11,14 +11,14 @@ import play.api.test.*
   *
   * For more information, see https://www.playframework.com/documentation/latest/ScalaTestingWithScalaTest
   */
-class HomeControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting {
+class HomeControllerSpec extends PlaySpec with DotenvOneAppPerTest with Injecting {
 
   "HomeController GET" should {
 
     "render the index page from a new instance of controller" in {
       val controller = new HomeController(stubControllerComponents())
       val home = controller.index().apply(FakeRequest(GET, "/"))
-      
+
       val e = inject[SyncCacheApi]
 
       status(home) mustBe OK
