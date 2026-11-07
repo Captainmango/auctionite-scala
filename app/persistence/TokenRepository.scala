@@ -11,7 +11,7 @@ trait TokenRepositoryInterface {
 
 class TokenRepository @Inject() (db: Database) extends TokenRepositoryInterface {
   def persistToken(t: Token): Boolean =
-    db.withConnection { conn =>
+    db.withTransaction { conn =>
       SQL("""
       INSERT INTO tokens (value, user_id)
       VALUES ({value}, {user_id})
@@ -23,7 +23,6 @@ class TokenRepository @Inject() (db: Database) extends TokenRepositoryInterface 
         .executeInsert()(using conn)
     } match
       case Some(rowCount) =>
-        println(rowCount)
         rowCount == 1L
       case None =>
         false

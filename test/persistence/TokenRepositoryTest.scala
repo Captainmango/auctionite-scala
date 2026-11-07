@@ -1,19 +1,13 @@
 package persistence
 
-import common.AppSpec
+import common.{AppSpec, TransactionalTests}
 import core.entities.Token
-import org.scalatest.flatspec.AnyFlatSpec
-import play.api.test.*
-import org.scalatestplus.play.guice.*
-import play.api.{Configuration, Environment}
-import play.api.db.{Database, Databases}
 
-class TokenRepositoryTest extends AppSpec {
+class TokenRepositoryTest extends AppSpec with TransactionalTests {
   def sut: TokenRepositoryInterface = inject[TokenRepository]
 
   it should "do something" in {
-    val db = inject[Database]
-    val t = Token(userId = 1, value = "sdsss")
+    val t = Token(userId = 1, value = "test-token-value")
     assert(sut.persistToken(t))
   }
 }
