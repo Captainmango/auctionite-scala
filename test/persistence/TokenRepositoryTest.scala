@@ -8,8 +8,7 @@ class TokenRepositoryTest extends AppSpec with TransactionalTests {
 
   it should "do something" in {
     val t = Token(userId = 1, value = "test-token-value")
-    assert(sut.persistToken(t))
-    val actual_t = sut.findByValue("test-token-value")
-    actual_t.value mustBe t.value
+    val actualToken = sut.persistToken(t)
+    actualToken.value mustBe t.value
   }
 }

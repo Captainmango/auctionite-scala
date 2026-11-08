@@ -1,5 +1,6 @@
 package core.services
 
+import com.google.inject.Inject
 import core.entities.{Token, User}
 import persistence.TokenRepositoryInterface
 
@@ -9,7 +10,7 @@ trait TokenServiceInterface {
   def generateTokenFor(user: User): Token
 }
 
-class TokenService(
+class TokenService @Inject() (
     tokenRepo: TokenRepositoryInterface
 ) extends TokenServiceInterface {
 
