@@ -20,8 +20,8 @@ class AuthService @Inject() (
 
   def registerUser(email: String, password: String): Option[User] = {
     val hashedPassword = BCrypt.withDefaults()
-      .hash(config.get[Int]("auth.bcrypt-rounds"), password.toCharArray)
-      .mkString("Array(", ", ", ")")
+      .hashToChar(config.get[Int]("auth.bcrypt-rounds"), password.toCharArray)
+      .mkString("")
 
     userRepo.persist(AuthUser(email, hashedPassword))
   }
@@ -30,12 +30,12 @@ class AuthService @Inject() (
     for {
       aU <- userRepo.findByEmailWithPassword(email)
       u <- this.verifyPassword(password, aU)
-      t <- Option(tokenService.generateTokenFor(u))
+      t <- Some(tokenService.generateTokenFor(u))
     } yield t
   }
 
   private def verifyPassword(password: String, au: AuthUser): Option[User] = {
-    if (BCrypt.verifyer().verify(password.toCharArray, au.passwordHash).verified) {
+    if (BCrypt.verifyer().verify(password.toCharArray, au.passwordHash.toCharArray).verified) {
       userRepo.findByEmail(au.email)
     } else {
       None
