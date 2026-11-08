@@ -24,8 +24,8 @@ class UserRepository @Inject() (
   def persist(u: AuthUser): Option[User] = {
     db.withTransaction { implicit conn =>
       SQL("""
-      INSERT INTO users (email, password_hash)
-      VALUES ({email}, {passwordHash})
+      INSERT INTO users (email, password_hash, created_at)
+      VALUES ({email}, {passwordHash}, now())
       ON CONFLICT (email) DO NOTHING
       RETURNING id, email
       """)
@@ -33,7 +33,7 @@ class UserRepository @Inject() (
         .as(userParser.singleOpt)
     }
   }
-  
+
   def findByEmailWithPassword(email: String): Option[AuthUser] = {
     db.withConnection { implicit conn =>
       SQL("""
