@@ -3,26 +3,26 @@ package common
 import org.scalatest.{TestData, TestSuite}
 import play.api.db.Database
 import play.api.inject.guice.GuiceApplicationBuilder
-import play.api.inject.{bind, ApplicationLifecycle}
+import play.api.inject.{ApplicationLifecycle, bind}
 import play.api.{Application, ApplicationLoader}
 import utils.DotenvApplicationLoader
 
 import scala.concurrent.Future
 import scala.util.Try
 
-/** Mixin for specs whose tests write to the database: every test runs inside one transaction that is rolled back
-  * when the test ends, so nothing it wrote survives into the next test or the next run.
+/** Mixin for specs whose tests write to the database: every test runs inside one transaction that is rolled back when
+  * the test ends, so nothing it wrote survives into the next test or the next run.
   *
-  * Works by overriding the injected [[Database]] with [[TransactionalDatabase]]: every connection the app under
-  * test obtains is the same auto-commit-off connection, so repository code joins the test-wide transaction instead
-  * of committing its own. The rollback is registered as an application stop hook; stop hooks run last-registered
-  * first, so it executes while the pool owning the connection is still alive.
+  * Works by overriding the injected [[Database]] with [[TransactionalDatabase]]: every connection the app under test
+  * obtains is the same auto-commit-off connection, so repository code joins the test-wide transaction instead of
+  * committing its own. The rollback is registered as an application stop hook; stop hooks run last-registered first, so
+  * it executes while the pool owning the connection is still alive.
   *
   * Caveats:
-  *   - Only the unqualified default `Database` binding is overridden; code injecting
-  *     `@NamedDatabase("...") Database` or using `db.dataSource` directly bypasses the transaction.
-  *   - `withTransaction` in code under test joins the same transaction — its commit is discarded along with
-  *     everything else.
+  *   - Only the unqualified default `Database` binding is overridden; code injecting `@NamedDatabase("...") Database`
+  *     or using `db.dataSource` directly bypasses the transaction.
+  *   - `withTransaction` in code under test joins the same transaction — its commit is discarded along with everything
+  *     else.
   *
   * Usage: `class TokenRepositoryTest extends AppSpec with TransactionalTests`.
   */

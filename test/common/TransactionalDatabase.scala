@@ -1,9 +1,10 @@
 package common
 
-import play.api.db.{Database, DBApi, TransactionIsolationLevel}
+import play.api.db.{DBApi, Database, TransactionIsolationLevel}
 
 import javax.inject.{Inject, Singleton}
 import javax.sql.DataSource
+
 import java.lang.reflect.{Method, Proxy}
 import java.sql.Connection
 
@@ -28,13 +29,13 @@ class TransactionalDatabase @Inject() (dbApi: DBApi) extends Database:
 
   private val shared: Connection = TransactionalDatabase.protect(transactional)
 
-  override def name: String                                   = real.name
-  override def dataSource: DataSource                         = real.dataSource
-  override def url: String                                    = real.url
-  override def getConnection(): Connection                    = shared
+  override def name: String = real.name
+  override def dataSource: DataSource = real.dataSource
+  override def url: String = real.url
+  override def getConnection(): Connection = shared
   override def getConnection(autocommit: Boolean): Connection = shared
 
-  override def withConnection[A](block: Connection => A): A                      = block(shared)
+  override def withConnection[A](block: Connection => A): A = block(shared)
   override def withConnection[A](autocommit: Boolean)(block: Connection => A): A = block(shared)
 
   /** There is no inner transaction to commit: callers join the test-wide one, and it all rolls back together. */
@@ -44,8 +45,8 @@ class TransactionalDatabase @Inject() (dbApi: DBApi) extends Database:
 
   override def shutdown(): Unit = rollback()
 
-  /** Discards everything written through this database and returns the connection to the real pool. Safe to call
-    * more than once.
+  /** Discards everything written through this database and returns the connection to the real pool. Safe to call more
+    * than once.
     */
   def rollback(): Unit =
     if !transactional.isClosed then

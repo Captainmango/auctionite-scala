@@ -1,13 +1,12 @@
 package ports.controllers
 
-import play.api.*
-import play.api.mvc.*
 import com.google.inject.Inject
-import core.services.AuthServiceInterface
-import play.api.mvc.{BaseController, ControllerComponents}
-import ports.requests.{RegisterUserRequest, registerReader}
 import core.entities.userWriter
+import core.services.AuthServiceInterface
+import play.api._
 import play.api.libs.json.{JsError, JsValue, Json}
+import play.api.mvc.{BaseController, ControllerComponents, _}
+import ports.requests.{RegisterUserRequest, registerReader}
 
 class AuthController @Inject() (
     val controllerComponents: ControllerComponents,

@@ -1,10 +1,10 @@
 package controllers
 
 import common.DotenvOneAppPerTest
-import org.scalatestplus.play.*
+import org.scalatestplus.play._
 import play.api.cache.SyncCacheApi
-import play.api.test.Helpers.*
-import play.api.test.*
+import play.api.test.Helpers._
+import play.api.test._
 import ports.controllers.HomeController
 
 /** Add your spec here. You can mock out a whole application including requests, plugins etc.

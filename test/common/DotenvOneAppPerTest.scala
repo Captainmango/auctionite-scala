@@ -16,8 +16,8 @@ import utils.DotenvApplicationLoader
 trait DotenvOneAppPerTest extends GuiceOneAppPerTest:
   this: TestSuite =>
 
-  /** The loader used to build each test application. Overridable so mixin traits can adjust the application's
-    * bindings — see `TransactionalTests`.
+  /** The loader used to build each test application. Overridable so mixin traits can adjust the application's bindings
+    * — see `TransactionalTests`.
     */
   protected def applicationLoader: ApplicationLoader = new DotenvApplicationLoader()
 

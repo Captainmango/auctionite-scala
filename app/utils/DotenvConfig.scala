@@ -4,7 +4,7 @@ import com.typesafe.config.ConfigFactory
 import io.github.cdimascio.dotenv.Dotenv
 import play.api.Configuration
 
-import scala.jdk.CollectionConverters.*
+import scala.jdk.CollectionConverters._
 
 /** Loads `.env` and weaves it into Typesafe Config resolution so its keys back `${?VAR}` substitutions exactly like
   * real environment variables would.

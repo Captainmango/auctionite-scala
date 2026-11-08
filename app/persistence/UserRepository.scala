@@ -1,13 +1,10 @@
 package persistence
 
-import com.google.inject.Inject
-import play.api.db.Database
-import anorm.*
 import anorm.Macro.ColumnNaming
+import anorm._
+import com.google.inject.Inject
 import core.entities.{AuthUser, User}
-
-import java.sql.Connection
-
+import play.api.db.Database
 
 trait UserRepositoryInterface {
   def persist(u: AuthUser): Option[User]

@@ -6,7 +6,6 @@ import core.entities.{AuthUser, Token, User}
 import persistence.UserRepositoryInterface
 import play.api.Configuration
 
-
 trait AuthServiceInterface {
   def registerUser(email: String, password: String): Option[User]
   def login(email: String, password: String): Option[Token]
@@ -19,7 +18,8 @@ class AuthService @Inject() (
 ) extends AuthServiceInterface {
 
   def registerUser(email: String, password: String): Option[User] = {
-    val hashedPassword = BCrypt.withDefaults()
+    val hashedPassword = BCrypt
+      .withDefaults()
       .hashToChar(config.get[Int]("auth.bcrypt-rounds"), password.toCharArray)
       .mkString("")
 

@@ -15,8 +15,10 @@ class TokenService @Inject() (
 ) extends TokenServiceInterface {
 
   def generateTokenFor(user: User): Token =
-    tokenRepo.persistToken(Token(
-      value = UUID.randomUUID().toString,
-      userId = user.id
-    ))
+    tokenRepo.persistToken(
+      Token(
+        value = UUID.randomUUID().toString,
+        userId = user.id
+      )
+    )
 }

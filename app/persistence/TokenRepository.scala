@@ -1,10 +1,10 @@
 package persistence
 
-import anorm.*
 import anorm.Macro.ColumnNaming
+import anorm._
 import com.google.inject.Inject
 import core.entities.Token
-import play.api.db.*
+import play.api.db._
 
 trait TokenRepositoryInterface {
   def persistToken(t: Token): Token
@@ -22,7 +22,8 @@ class TokenRepository @Inject() (db: Database) extends TokenRepositoryInterface 
       RETURNING value, user_id
       """)
         .on(
-          "value" -> t.value, "user_id" -> t.userId
+          "value" -> t.value,
+          "user_id" -> t.userId
         )
         .as(parser.single)
     }
