@@ -1,10 +1,12 @@
 package persistence
 
 import anorm.Macro.ColumnNaming
-import anorm._
+import anorm.*
 import com.google.inject.Inject
 import core.entities.Token
-import play.api.db._
+import play.api.db.*
+
+import java.sql.Connection
 
 trait TokenRepositoryInterface {
   def persistToken(t: Token): Token
@@ -15,7 +17,7 @@ val parser: RowParser[Token] = Macro.namedParser[Token](ColumnNaming.SnakeCase)
 
 class TokenRepository @Inject() (db: Database) extends TokenRepositoryInterface {
   def persistToken(t: Token): Token =
-    db.withTransaction { implicit conn =>
+    db.withTransaction { conn =>
       SQL("""
       INSERT INTO tokens (value, user_id)
       VALUES ({value}, {user_id})
@@ -25,14 +27,14 @@ class TokenRepository @Inject() (db: Database) extends TokenRepositoryInterface 
           "value" -> t.value,
           "user_id" -> t.userId
         )
-        .as(parser.single)
+        .as(parser.single)(using conn)
     }
 
   def findByValue(v: String): Token = {
-    db.withConnection { implicit conn =>
+    db.withConnection { conn =>
       SQL("""
       SELECT * FROM tokens where value = {value}
-      """).on("value" -> v).as(parser.single)
+      """).on("value" -> v).as(parser.single)(using conn)
     }
   }
 }

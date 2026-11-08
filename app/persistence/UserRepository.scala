@@ -19,7 +19,7 @@ class UserRepository @Inject() (
     db: Database
 ) extends UserRepositoryInterface {
   def persist(u: AuthUser): Option[User] = {
-    db.withTransaction { implicit conn =>
+    db.withTransaction { conn =>
       SQL("""
       INSERT INTO users (email, password_hash, created_at)
       VALUES ({email}, {passwordHash}, now())
@@ -27,29 +27,29 @@ class UserRepository @Inject() (
       RETURNING id, email
       """)
         .on("email" -> u.email, "passwordHash" -> u.passwordHash)
-        .as(userParser.singleOpt)
+        .as(userParser.singleOpt)(using conn)
     }
   }
 
   def findByEmailWithPassword(email: String): Option[AuthUser] = {
-    db.withConnection { implicit conn =>
+    db.withConnection { conn =>
       SQL("""
       SELECT email, password_hash FROM users
       WHERE email = {email}
       """)
         .on("email" -> email)
-        .as(authUserParser.singleOpt)
+        .as(authUserParser.singleOpt)(using conn)
     }
   }
 
   def findByEmail(email: String): Option[User] = {
-    db.withConnection { implicit conn =>
+    db.withConnection { conn =>
       SQL("""
       SELECT id, email FROM users
       WHERE email = {email}
       """)
         .on("email" -> email)
-        .as(userParser.singleOpt)
+        .as(userParser.singleOpt)(using conn)
     }
   }
 }
